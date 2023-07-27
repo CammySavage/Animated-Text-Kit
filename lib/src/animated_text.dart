@@ -22,16 +22,20 @@ abstract class AnimatedText {
   /// then you have to set [duration] to 3 seconds.
   final Duration duration;
 
+  /// AnimationController to override the default given.
+  final AnimationController? animationController;
+
   /// Same as [text] but as [Characters].
   ///
-  /// Need to use character length, not String length, to propertly support
+  /// Need to use character length, not String length, to properly support
   /// Unicode and Emojis.
   final Characters textCharacters;
 
-  AnimatedText({
+  AnimatedText( {
     required this.text,
     this.textAlign = TextAlign.start,
     this.textStyle,
+    this.animationController,
     required this.duration,
   }) : textCharacters = text.characters;
 
@@ -214,7 +218,7 @@ class _AnimatedTextKitState extends State<AnimatedTextKit>
   void _initAnimation() {
     _currentAnimatedText = widget.animatedTexts[_index];
 
-    _controller = AnimationController(
+    _controller = _currentAnimatedText.animationController ?? AnimationController(
       duration: _currentAnimatedText.duration,
       vsync: this,
     );
